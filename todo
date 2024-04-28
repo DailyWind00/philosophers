@@ -1,4 +1,0 @@
-todo :
-  -Handle 0 philos (exit instantly)
-  -Add table of philos id in the cook to assure the amount of meals if respected
-  -Handle death of philos when thinking
