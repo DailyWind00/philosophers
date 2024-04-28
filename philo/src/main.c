@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:29:34 by mgallais          #+#    #+#             */
-/*   Updated: 2024/04/28 14:06:11 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/28 14:18:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static void	init_threads(t_data *data)
 	pthread_join(data->mortuary_keeper, NULL);
 	while (i < data->number_of_philosophers)
 		pthread_join(data->philos[i++].thread, NULL);
+	printf("\nSimulation ended\n");
 }
 
 int	main(int argc, char **argv)

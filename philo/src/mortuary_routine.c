@@ -34,9 +34,9 @@ void	*mortuary(void *data_struct)
 				data->someone_ded = true;
 				pthread_mutex_unlock(&data->dying);
 			}
-			pthread_mutex_unlock(&data->time_eaten);
 			if (check_death(data))
 				return (NULL);
+			pthread_mutex_unlock(&data->time_eaten);
 			i++;
 		}
 	}
