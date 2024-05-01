@@ -7,7 +7,7 @@ This project makes you understand multi-threading by using threads and mutexes :
 To check if the program have leaks / data races / threads or mutexes errors you have these followind commands / methods :
 ```shell
 valgrind --tool=helgrind ./philo ...
-valgrind --tool=drd ./philo
+valgrind --tool=drd ./philo ...
 
 # Or go in the Makefile and change the -pthread compiler flag with -fsanitize=thread & recompile the program
 ```
