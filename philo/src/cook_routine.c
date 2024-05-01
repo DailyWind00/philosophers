@@ -12,38 +12,31 @@
 
 #include "../include/philo.h"
 
-static void	cooking(t_data *data, int philo_number)
-{
-	int		i;
-	int		satisfied_philos;
-
-	i = 0;
-	satisfied_philos = 0;
-	while (42)
-	{
-		if (satisfied_philos == philo_number || check_death(data))
-			break ;
-		pthread_mutex_lock(&data->time_eaten);
-		if (data->philos[i].time_eaten == data->nb_meals)
-		{
-			satisfied_philos++;
-			i = (i + 1) % philo_number;
-		}
-		pthread_mutex_unlock(&data->time_eaten);
-	}
-}
-
 // This function is the routine of the cook. It makes the cook wait for all the
 // philosophers to eat enough meals, then it retires and dies.
 // (So someone_ded is set to true and the program ends)
 void	*kitchen(void *data_struct)
 {
 	t_data	*data;
-	int		philo_number;
+	int		i;
+	size_t	philos_fulls;
 
 	data = (t_data *)data_struct;
-	philo_number = data->number_of_philosophers;
-	cooking(data, philo_number);
+	i = 0;
+	philos_fulls = 0;
+	while (philos_fulls < data->number_of_philosophers && !check_death(data))
+	{
+		ft_usleep(NULL, 1);
+		pthread_mutex_lock(&data->philos[i].eating);
+		if (data->philos[i].time_eaten >= data->nb_meals)
+		{
+			pthread_mutex_unlock(&data->philos[i].eating);
+			philos_fulls++;
+			i++;
+			continue ;
+		}
+		pthread_mutex_unlock(&data->philos[i].eating);
+	}
 	pthread_mutex_lock(&data->dying);
 	data->someone_ded = true;
 	pthread_mutex_unlock(&data->dying);

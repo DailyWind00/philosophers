@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:29:34 by mgallais          #+#    #+#             */
-/*   Updated: 2024/04/28 14:18:59 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/01 11:42:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ void	free_data(t_data *data)
 
 	i = 0;
 	while (i < data->number_of_philosophers)
-		pthread_mutex_destroy(&data->forks[i++]);
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->philos[i++].eating);
+	}
 	pthread_mutex_destroy(&data->writing);
 	pthread_mutex_destroy(&data->dying);
-	pthread_mutex_destroy(&data->time_eaten);
 	if (data->forks)
 		free(data->forks);
 	if (data->philos)
@@ -35,11 +37,12 @@ static void	init_threads(t_data *data)
 	size_t	i;
 
 	i = -1;
-	printf("Starting simulation\n\n");
+	if (data->number_of_philosophers == 0)
+		return ;
 	if (data->number_of_philosophers == 1)
 	{
 		printf("\033[1;37m0 1  has taken a fork\n");
-		ft_usleep(data->time_to_die);
+		ft_usleep(NULL, data->time_to_die);
 		printf("\033[1;31m%li 1 died\n\033[0m", data->time_to_die);
 		return ;
 	}
@@ -56,7 +59,6 @@ static void	init_threads(t_data *data)
 	pthread_join(data->mortuary_keeper, NULL);
 	while (i < data->number_of_philosophers)
 		pthread_join(data->philos[i++].thread, NULL);
-	printf("\nSimulation ended\n");
 }
 
 int	main(int argc, char **argv)

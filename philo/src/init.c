@@ -63,7 +63,6 @@ static void	init_data(t_data *data, int number_of_philosophers, char **argv)
 		pthread_mutex_init(&data->forks[number_of_philosophers], NULL);
 	pthread_mutex_init(&data->writing, NULL);
 	pthread_mutex_init(&data->dying, NULL);
-	pthread_mutex_init(&data->time_eaten, NULL);
 	data->start_time = get_time();
 }
 
@@ -83,6 +82,7 @@ static void	init_philos(t_data *data, int number_of_philosophers)
 		data->philos[i].r_fork = &data->forks[(i + 1) % number_of_philosophers];
 		data->philos[i].time_eaten = 0;
 		data->philos[i].last_meal = data->start_time;
+		pthread_mutex_init(&data->philos[i].eating, NULL);
 		i++;
 	}
 }

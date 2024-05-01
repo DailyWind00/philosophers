@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:30:22 by mgallais          #+#    #+#             */
-/*   Updated: 2024/04/28 14:20:27 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/01 12:01:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_philo
 	pthread_t			thread;
 	pthread_mutex_t		*l_fork;
 	pthread_mutex_t		*r_fork;
+	pthread_mutex_t		eating;
 	size_t				last_meal;
 	ssize_t				time_eaten;
 	int					id;
@@ -64,7 +65,6 @@ typedef struct s_data
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		writing;
 	pthread_mutex_t		dying;
-	pthread_mutex_t		time_eaten;
 }	t_data;
 
 int				init(t_data *data, int argc, char **argv);
@@ -73,7 +73,7 @@ void			*kitchen(void *data);
 void			*mortuary(void *data);
 void			*routine(void *philo);
 size_t			get_time(void);
-void			ft_usleep(size_t time);
+void			ft_usleep(t_data *data, size_t time);
 void			philos_printf(t_philo *philo, char *str, char *color,
 					bool death_message);
 

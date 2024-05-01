@@ -20,24 +20,25 @@ void	*mortuary(void *data_struct)
 	size_t		i;
 
 	data = (t_data *)data_struct;
-	while (42)
+	while (!check_death(data))
 	{
 		i = 0;
-		while (i < data->number_of_philosophers)
+		while (i < data->number_of_philosophers && !check_death(data))
 		{
-			pthread_mutex_lock(&data->time_eaten);
+			ft_usleep(NULL, 1);
+			pthread_mutex_lock(&data->philos[i].eating);
 			if (get_time() - data->philos[i].last_meal > data->time_to_die)
 			{
-				pthread_mutex_unlock(&data->time_eaten);
+				pthread_mutex_unlock(&data->philos[i].eating);
 				pthread_mutex_lock(&data->dying);
-				philos_printf(&data->philos[i], "died", B_RED, true);
 				data->someone_ded = true;
 				pthread_mutex_unlock(&data->dying);
-			}
-			if (check_death(data))
+				philos_printf(&data->philos[i], "died", B_RED, true);
 				return (NULL);
-			pthread_mutex_unlock(&data->time_eaten);
+			}
+			pthread_mutex_unlock(&data->philos[i].eating);
 			i++;
 		}
 	}
+	return (NULL);
 }
