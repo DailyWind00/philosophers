@@ -26,7 +26,6 @@ void	*kitchen(void *data_struct)
 	philos_fulls = 0;
 	while (philos_fulls < data->number_of_philosophers && !check_death(data))
 	{
-		ft_usleep(NULL, 1);
 		pthread_mutex_lock(&data->philos[i].eating);
 		if (data->philos[i].time_eaten >= data->nb_meals)
 		{

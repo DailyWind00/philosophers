@@ -25,6 +25,7 @@ static long	ft_atoi(const char *str)
 }
 
 // This function checks if the arguments given to the program are valid.
+// Returns true if they are, false otherwise.
 static bool	check_args(char **argv)
 {
 	int	i;
@@ -36,7 +37,7 @@ static bool	check_args(char **argv)
 		j = 0;
 		while (argv[i][j])
 		{
-			if (argv[i][j] < '0' || argv[i][j] > '9')
+			if (argv[i][j] < '0' || argv[i][j] > '9' || j >= 10)
 				return (false);
 			j++;
 		}
@@ -97,6 +98,11 @@ int	init(t_data *data, int argc, char **argv)
 	if ((argc == 5 || argc == 6) && check_args(argv))
 	{
 		number_of_philosophers = ft_atoi(argv[1]);
+		if (number_of_philosophers > 200)
+		{
+			printf(CORRECT_SYNTAX);
+			return (1);
+		}
 		init_data(data, number_of_philosophers, argv);
 		init_philos(data, number_of_philosophers);
 		return (0);

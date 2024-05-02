@@ -25,7 +25,6 @@ void	*mortuary(void *data_struct)
 		i = 0;
 		while (i < data->number_of_philosophers && !check_death(data))
 		{
-			ft_usleep(NULL, 1);
 			pthread_mutex_lock(&data->philos[i].eating);
 			if (get_time() - data->philos[i].last_meal > data->time_to_die)
 			{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mgallais <mgallais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:56:09 by mgallais          #+#    #+#             */
-/*   Updated: 2024/05/01 12:28:44 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/02 10:18:01 by mgallais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,9 @@ void	ft_usleep(t_data *data, size_t time)
 void	philos_printf(t_philo *philo, char *str, char *color,
 											bool death_message)
 {
+	pthread_mutex_lock(&philo->data->writing);
 	if (death_message || !check_death(philo->data))
-	{
-		pthread_mutex_lock(&philo->data->writing);
 		printf("%s%zu %d %s\n%s", color, get_time() - philo->data->start_time,
 			philo->id, str, RESET);
-		pthread_mutex_unlock(&philo->data->writing);
-	}
+	pthread_mutex_unlock(&philo->data->writing);
 }
