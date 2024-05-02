@@ -9,7 +9,8 @@ To check if the program have leaks / data races / threads or mutexes errors you 
 valgrind --tool=helgrind ./philo ...
 valgrind --tool=drd ./philo ...
 
-# Or go in the Makefile and change the -pthread compiler flag with -fsanitize=thread & recompile the program
+# Or go in the Makefile and change the -pthread compiler flag
+#  with -fsanitize=thread & recompile the program
 ```
 (note : These commands / methods may cause some lag in the program so it won't work properly, they have to be used only to check errors)
 (note : In this project you cannot handle lock-order-inversion errors, these errors have been ignored during my defense)
